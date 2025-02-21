@@ -37,6 +37,3 @@ The AI Code Reviewer is a web-based tool that allows users to submit code for an
 - AI-based code review integration.
 - Support for multiple programming languages.
 - Improved UI/UX enhancements.
-
-## License
-This project is open-source and available under the [MIT License](LICENSE).
