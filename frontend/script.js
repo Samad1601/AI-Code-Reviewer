@@ -19,19 +19,29 @@ async function reviewCode() {
     const code = document.getElementById("code-input").value;
     const userPrompt = document.getElementById("user-prompt").value;
     const outputDiv = document.getElementById("review-output");
-    
+
     if (!code || !userPrompt) { 
         alert("Please enter both code and a prompt!"); 
         return; 
     }
 
-    const response = await fetch("http://127.0.0.1:5000/process", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: code, prompt: userPrompt })
-    });
+    try {
+        const response = await fetch("https://ai-code-reviewer-backend.onrender.com/process", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code: code, prompt: userPrompt })
+        });
 
-    const data = await response.json();
-    outputDiv.innerText = data.response || "Error: No response from AI";
+        if (!response.ok) {
+            throw new Error("Failed to get response from the server.");
+        }
+
+        const data = await response.json();
+        outputDiv.innerText = data.response || "Error: No response from AI";
+    } catch (error) {
+        console.error("Error:", error);
+        outputDiv.innerText = "Something went wrong! Please try again.";
+    }
+
     outputDiv.style.display = "block";
 }
