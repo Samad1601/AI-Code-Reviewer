@@ -13,16 +13,14 @@ def process_code():
     
     if not data or "code" not in data or "prompt" not in data:
         return jsonify({"error": "Invalid or missing JSON data"}), 400
-
+    
     user_code = data["code"]
     user_prompt = data["prompt"]
-
-    # Initialize the model
+    
     model = genai.GenerativeModel('gemini-pro')
-
-    # Generate content
+    
     response = model.generate_content(f"{user_prompt}:\n\n{user_code}")
-
+    
     return jsonify({"response": response.text if response else "No response"})
 
 if __name__ == '__main__':
