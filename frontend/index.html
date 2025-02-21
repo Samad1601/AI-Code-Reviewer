@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Code Reviewer</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        textarea { width: 80%; height: 200px; margin-top: 10px; }
+        input, button { padding: 10px; margin-top: 10px; width: 80%; }
+        #review-output { margin-top: 20px; text-align: left; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>AI Code Reviewer</h1>
+    <textarea id="code-input" placeholder="Paste your code here..."></textarea><br>
+    <input id="user-prompt" placeholder="Describe what you want to do with your code..." /><br>
+    <button onclick="reviewCode()">Submit</button>
+    <div id="review-output"></div>
+
+    <script>
+        async function reviewCode() {
+            const code = document.getElementById("code-input").value;
+            const userPrompt = document.getElementById("user-prompt").value;
+            if (!code || !userPrompt) { alert("Please enter both code and a prompt!"); return; }
+            
+            const response = await fetch("http://127.0.0.1:5000/process", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    code: code,
+                    prompt: userPrompt
+                })
+            });
+            
+            const data = await response.json();
+            document.getElementById("review-output").innerText = data.response || "Error: No response from AI";
+        }
+    </script>
+</body>
+</html>
