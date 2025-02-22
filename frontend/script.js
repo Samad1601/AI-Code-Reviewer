@@ -29,7 +29,7 @@ async function reviewCode() {
     outputDiv.style.display = "block";
 
     try {
-        const response = await fetch("https://ai-code-reviewer-backend.onrender.com/process", {
+        const response = await fetch("https://ai-code-reviewer-yzu7.onrender.com/process", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ code: code, prompt: userPrompt })
