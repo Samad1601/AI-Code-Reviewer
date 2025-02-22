@@ -1,3 +1,5 @@
+
+import os
 from flask import Flask, request, jsonify
 import google.generativeai as genai
 from flask_cors import CORS
@@ -5,7 +7,11 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-genai.configure(api_key="AIzaSyBxk5p1hvfbmK5TqsOssOqte_cDRHLTIbw")
+GENAI_API_KEY = os.getenv("AIzaSyBxk5p1hvfbmK5TqsOssOqte_cDRHLTIbw")
+if GENAI_API_KEY:
+    genai.configure(api_key=GENAI_API_KEY)
+else:
+    raise ValueError("Missing Google Gemini API Key!")
 
 @app.route('/process', methods=['POST'])
 def process_code():
@@ -24,4 +30,4 @@ def process_code():
     return jsonify({"response": response.text if response else "No response"})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=False)

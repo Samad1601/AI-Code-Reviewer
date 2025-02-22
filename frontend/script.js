@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("submit-btn").addEventListener("click", reviewCode);
     const starContainer = document.querySelector(".stars");
     const starCount = 50;
-    
+
     for (let i = 0; i < starCount; i++) {
         const star = document.createElement("div");
         star.classList.add("star");
@@ -16,14 +16,17 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 async function reviewCode() {
-    const code = document.getElementById("code-input").value;
-    const userPrompt = document.getElementById("user-prompt").value;
+    const code = document.getElementById("code-input").value.trim();
+    const userPrompt = document.getElementById("user-prompt").value.trim();
     const outputDiv = document.getElementById("review-output");
 
     if (!code || !userPrompt) { 
         alert("Please enter both code and a prompt!"); 
         return; 
     }
+
+    outputDiv.innerText = "Processing... ⏳";
+    outputDiv.style.display = "block";
 
     try {
         const response = await fetch("https://ai-code-reviewer-backend.onrender.com/process", {
@@ -33,15 +36,13 @@ async function reviewCode() {
         });
 
         if (!response.ok) {
-            throw new Error("Failed to get response from the server.");
+            throw new Error(`Server Error: ${response.status}`);
         }
 
         const data = await response.json();
-        outputDiv.innerText = data.response || "Error: No response from AI";
+        outputDiv.innerText = data.response || "No response from AI.";
     } catch (error) {
         console.error("Error:", error);
-        outputDiv.innerText = "Something went wrong! Please try again.";
+        outputDiv.innerText = "⚠️ Something went wrong! Please try again.";
     }
-
-    outputDiv.style.display = "block";
 }
