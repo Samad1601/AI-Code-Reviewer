@@ -1,0 +1,101 @@
+html, body {
+    background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    color: white;
+    text-align: center;
+    overflow: auto;
+}
+
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%;
+    transform: rotate(-45deg);
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    left: 0;
+    width: var(--star-tail-length);
+    height: 2px;
+    background: linear-gradient(45deg, white, transparent);
+    border-radius: 50%;
+    filter: drop-shadow(0 0 6px white);
+    transform: translate3d(104em, 0, 0);
+    animation: fall var(--fall-duration) var(--fall-delay) linear infinite, 
+               tail-fade var(--fall-duration) var(--fall-delay) ease-out infinite;
+}
+
+@keyframes fall {
+    to { transform: translate3d(-30em, 0, 0); }
+}
+
+@keyframes tail-fade {
+    0%, 50% { width: var(--star-tail-length); opacity: 1; }
+    70%, 80% { width: 0; opacity: 0.4; }
+    100% { width: 0; opacity: 0; }
+}
+
+.container {
+    width: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: auto;
+    margin: 20px auto;
+    overflow: visible;
+}
+
+textarea, input, .output {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    resize: vertical;
+}
+
+textarea {
+    min-height: 150px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.output {
+    display: none;
+    word-wrap: break-word;
+}
